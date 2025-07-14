@@ -19,6 +19,7 @@ function InputBox({ onSend }) {
     }
   }
 
+  // Efecto para ampliar el recuadro de Input
   useEffect(() => {
     const textarea = textareaRef.current
     if (textarea) {
