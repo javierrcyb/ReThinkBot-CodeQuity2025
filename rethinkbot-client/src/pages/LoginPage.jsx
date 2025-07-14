@@ -1,19 +1,24 @@
-import { useState } from 'react'
-import { useAuth } from '../context/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { login } from '../services/auth';
 
 function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const { login } = useAuth()
-  const navigate = useNavigate()
+  const [email, setEmail] = useState('');
+  const { login: loginContext } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    const fakeToken = '123.mock.jwt' // esto luego se cambia con backend real
-    login(fakeToken)
-    navigate('/chat/1')
-  }
+    e.preventDefault();
+    try {
+      const data = await login(email); // llama al backend
+      loginContext(data.token); // guarda token en contexto
+      navigate('/chat/1');
+    } catch (err) {
+      console.error(err);
+      alert('Error al iniciar sesión');
+    }
+  };
 
   return (
     <form className="login-form" onSubmit={handleSubmit}>
@@ -24,15 +29,9 @@ function LoginPage() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <input
-        type="password"
-        placeholder="Contraseña"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
       <button type="submit">Entrar</button>
     </form>
-  )
+  );
 }
 
 export default LoginPage
