@@ -1,9 +1,8 @@
 import api from './api';
 
 export async function login(email, password) {
-  // por ahora solo se usa email
-  const response = await api.post('/api/auth/login', { email });
-  return response.data; // incluye token
+  const response = await api.post('/api/auth/login', { email, password });
+  return response.data;
 }
 
 export async function register(email, name) {

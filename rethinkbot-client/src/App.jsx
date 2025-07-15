@@ -12,19 +12,32 @@ function App() {
     navigate('/'); // 3. Redirigir a la ruta deseada
   };
 
+  const handleLogIn = () => {
+    navigate('/login');
+  }
+
+  const handleSignIn = () => {
+    navigate('/register')
+  }
+
   return (
     <div className='whole-page'>
       <div className='sidebar'>
         <button className='new-chat' onClick={handleNewChat}>New chat</button>
         <ChatsNavBar />
         <div className='foot-sidebar'>
+
           {user ? (
             <>
               <p>🔓 Sesión activa</p>
               <button onClick={logout}>Cerrar sesión</button>
             </>
           ) : (
-            <p>🔒 No has iniciado sesión</p>
+            <>
+              <button onClick={handleLogIn}>Iniciar sesion</button>
+              <button onClick={handleSignIn}>Registrarse</button>
+              <p>🔒 No has iniciado sesión</p>
+            </>
           )}
         </div>
       </div>
