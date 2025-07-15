@@ -1,20 +1,31 @@
-const express = require('express')
-const cors = require('cors')
-const app = express()
+const express = require('express');
+const cors = require('cors');
+const session = require('express-session');
+const passport = require('passport');
+const configurePassport = require('./passport/config');
+
+const app = express();
 
 app.use(cors({
   origin: 'http://localhost:5173',
   credentials: true
 }));
 
-app.use(express.json())
+app.use(express.json());
+app.use(session({
+  secret: 'supersecreto',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false }
+}));
 
-app.get('/', (req, res) => res.send('API ReThinkBot funcionando'))
+app.use(passport.initialize());
+app.use(passport.session());
+configurePassport(passport);
 
-const authRoutes = require('./routes/auth');
-app.use('/api/auth', authRoutes);
+app.get('/', (req, res) => res.send('API ReThinkBot funcionando'));
 
-const conversationRoutes = require('./routes/conversation');
-app.use('/api/conversations', conversationRoutes);
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/conversations', require('./routes/conversation'));
 
-module.exports = app
+module.exports = app;

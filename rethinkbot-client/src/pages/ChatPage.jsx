@@ -1,12 +1,15 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import InputBox from '../components/InputBox';
-import { getConversationById } from '../services/conversation'; // 👈 función que vas a crear
-
+import { getConversationById, sendMessage } from '../services/conversation'; // 👈
+import { useAuth } from '../context/AuthContext';
+import { getOrCreateAnonId } from '../utils/anon';
 
 function ChatPage() {
   const [messages, setMessages] = useState([]);
-  const { id } = useParams(); // 👈 conversation ID de la URL
+  const { id } = useParams();
+  const { isAuthenticated, user } = useAuth();
+  const userId = isAuthenticated ? user?.id : getOrCreateAnonId();
 
   useEffect(() => {
     async function loadConversation() {
@@ -26,13 +29,17 @@ function ChatPage() {
     loadConversation();
   }, [id]);
 
- const handleSend = async ({ text }) => {
-  setMessages((prev) => [
-    ...prev,
-    { from: 'user', text },
-    { from: 'bot', text: '🤖 (respuesta pendiente)' }
-  ]);
-};
+  const handleSend = async ({ text }) => {
+    setMessages(prev => [...prev, { from: 'user', text }]);
+
+    try {
+      const res = await sendMessage(id, userId, text);
+      setMessages(prev => [...prev, { from: 'user', text }, { from: 'bot', text: res.botReply }]);
+    } catch (err) {
+      console.error('❌ Error enviando mensaje:', err);
+      setMessages(prev => [...prev, { from: 'bot', text: '⚠️ Error enviando mensaje' }]);
+    }
+  };
 
   return (
     <div className='main-page'>
@@ -41,10 +48,16 @@ function ChatPage() {
           <p key={i}><strong>{msg.from}:</strong> {msg.text}</p>
         ))}
       </div>
+
       <InputBox onSend={handleSend} />
+
+      <div className='session-status'>
+        {isAuthenticated
+          ? <p>🔓 Estás viendo este chat como <strong>usuario registrado</strong></p>
+          : <p>👤 Estás viendo este chat como <strong>invitado anónimo</strong></p>}
+      </div>
     </div>
   );
 }
 
-
-export default ChatPage
+export default ChatPage;

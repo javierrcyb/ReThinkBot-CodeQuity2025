@@ -1,27 +1,25 @@
 const express = require('express');
+const passport = require('passport');
+const { register } = require('../controllers/authController');
 const router = express.Router();
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
 
-// Registro de usuario
-router.post('/register', async (req, res) => {
-  const { email, name } = req.body;
-  try {
-    const user = await prisma.user.create({ data: { email, name } });
-    res.json(user); // puedes enviar también un token en el futuro
-  } catch (err) {
-    res.status(400).json({ error: 'Email ya en uso' });
-  }
+router.post('/register', register);
+
+router.post('/login', passport.authenticate('local'), (req, res) => {
+  res.json({ message: 'Logueado', user: { id: req.user.id, email: req.user.email } });
 });
 
-// Login falso por ahora (solo busca usuario por email)
-router.post('/login', async (req, res) => {
-  const { email } = req.body;
-  const user = await prisma.user.findUnique({ where: { email } });
-  if (user) {
-    res.json({ token: user.id }); // usar JWT después
+router.post('/logout', (req, res) => {
+  req.logout(() => {
+    res.json({ message: 'Sesión cerrada' });
+  });
+});
+
+router.get('/me', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.json({ user: req.user });
   } else {
-    res.status(401).json({ error: 'Usuario no encontrado' });
+    res.status(401).json({ message: 'No autenticado' });
   }
 });
 

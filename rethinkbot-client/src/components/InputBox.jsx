@@ -13,11 +13,17 @@ function InputBox({ onSend }) {
   const textareaRef = useRef(null)
 
   const handleSend = () => {
-    if (text.trim()) {
-      onSend({ text, modo: modoActivo })
-      setText('')
+    if (!modoActivo) {
+      alert("Por favor, selecciona un modo antes de enviar.");
+      return;
     }
-  }
+
+    if (text.trim()) {
+      onSend({ text, modo: modoActivo });
+      setText('');
+    }
+  };
+
 
   // Efecto para ampliar el recuadro de Input
   useEffect(() => {
