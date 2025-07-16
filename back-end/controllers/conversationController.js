@@ -6,15 +6,15 @@ const prisma = new PrismaClient();
 function getSystemPrompt(mode) {
   switch (mode) {
     case 'SOCRATIC':
-      return `Eres un tutor socrático que responde con preguntas que hacen reflexionar. No das respuestas directas.`;
+      return `You are a Socratic tutor who responds with questions that make people think. Do not give direct answers.`;
     case 'DEBATE':
-      return `Eres un oponente amistoso que ofrece contraargumentos racionales y bien estructurados.`;
+      return `You are a friendly opponent who offers rational and well-structured counterarguments.`;
     case 'EVIDENCE':
-      return `Eres un mentor que exige justificación y evidencia clara para cada afirmación.`;
+      return `You are a mentor who demands justification and clear evidence for every statement.`;
     case 'SPEECH':
-      return `Eres un crítico del discurso que analiza los supuestos ideológicos y políticos de lo que dice el usuario.`;
+      return `You are a discourse critic who analyzes the ideological and political assumptions behind what the user says.`;
     default:
-      return `Eres un tutor que guía al usuario a pensar críticamente sobre lo que dice.`;
+      return `You are a tutor who guides the user to think critically about what they say.`;
   }
 }
 
@@ -76,8 +76,8 @@ exports.createConversation = async (req, res) => {
 
     res.json(updated);
   } catch (error) {
-    console.error('Error creando conversación:', error);
-    res.status(500).json({ error: 'Error creando conversación' });
+    console.error('Error creating conversation:', error);
+    res.status(500).json({ error: 'Error creating conversation' });
   }
 };
 
@@ -91,20 +91,20 @@ exports.getConversationById = async (req, res) => {
     });
 
     if (!conversation) {
-      return res.status(404).json({ error: 'Conversación no encontrada' });
+      return res.status(404).json({ error: 'Conversation not found' });
     }
 
     res.json(conversation);
   } catch (error) {
-    console.error('❌ Error obteniendo conversación:', error);
-    res.status(500).json({ error: 'Error del servidor' });
+    console.error('Error obtaining conversation:', error);
+    res.status(500).json({ error: 'Server error' });
   }
 };
 
 exports.listConversationsByUser = async (req, res) => {
   const { userId } = req.query;
 
-  if (!userId) return res.status(400).json({ error: 'Falta el userId' });
+  if (!userId) return res.status(400).json({ error: 'The userId is missing.' });
 
   try {
     let realUserId = userId;
@@ -132,8 +132,8 @@ exports.listConversationsByUser = async (req, res) => {
 
     res.json(conversations);
   } catch (error) {
-    console.error('❌ Error obteniendo conversaciones:', error);
-    res.status(500).json({ error: 'Error del servidor' });
+    console.error('Error retrieving conversations:', error);
+    res.status(500).json({ error: 'Server error' });
   }
 };
 
@@ -147,7 +147,7 @@ exports.sendMessage = async (req, res) => {
       include: { messages: true },
     });
 
-    if (!conversation) return res.status(404).json({ error: 'Conversación no encontrada' });
+    if (!conversation) return res.status(404).json({ error: 'Conversation not found' });
 
     await prisma.message.create({
       data: {
@@ -170,7 +170,7 @@ exports.sendMessage = async (req, res) => {
       contents: history,
     });
 
-    const botText = result.text || '[Respuesta no disponible]';
+    const botText = result.text || '[Answer not available]';
 
     await prisma.message.create({
       data: {
@@ -182,8 +182,8 @@ exports.sendMessage = async (req, res) => {
 
     res.json({ botReply: botText });
   } catch (err) {
-    console.error('❌ Error enviando mensaje:', err);
-    res.status(500).json({ error: 'Error del servidor' });
+    console.error('Error sending message:', err);
+    res.status(500).json({ error: 'Server error' });
   }
 };
 
@@ -194,9 +194,9 @@ exports.deleteConversation = async (req, res) => {
     await prisma.message.deleteMany({ where: { conversationId: id } });
     await prisma.conversation.delete({ where: { id } });
 
-    res.json({ success: true, message: 'Conversación eliminada' });
+    res.json({ success: true, message: 'Deleted conversation' });
   } catch (error) {
-    console.error('❌ Error eliminando conversación:', error);
-    res.status(500).json({ error: 'No se pudo eliminar la conversación' });
+    console.error('Error deleting conversation:', error);
+    res.status(500).json({ error: 'The conversation could not be deleted.' });
   }
 };
