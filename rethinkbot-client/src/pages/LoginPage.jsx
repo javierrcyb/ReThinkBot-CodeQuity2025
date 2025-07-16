@@ -2,7 +2,6 @@ import './LoginPage.css'
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import api from '../services/api';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -17,16 +16,16 @@ function LoginPage() {
       navigate('/');
     } catch (err) {
       console.error(err);
-      alert('Error al iniciar sesión');
+      alert('Error while registering');
     }
   };
 
 
   return (
     <form onSubmit={handleSubmit}>
-      <input value={email} onChange={e => setEmail(e.target.value)} placeholder="Correo" />
-      <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Contraseña" />
-      <button type="submit">Entrar</button>
+      <input value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
+      <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
+      <button type="submit">Enter</button>
     </form>
   );
 }

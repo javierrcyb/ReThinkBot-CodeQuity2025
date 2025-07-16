@@ -23,7 +23,7 @@ function ChatPage() {
           }))
         );
       } catch (err) {
-        console.error('Error cargando conversación', err);
+        console.error('Error loading conversation', err);
       }
     }
 
@@ -40,11 +40,11 @@ function ChatPage() {
         { from: 'bot', text: res.botReply }
       ]);
     } catch (err) {
-      console.error('❌ Error enviando mensaje:', err);
+      console.error('Error sending message:', err);
       setMessages(prev => [
         ...prev,
         { from: 'user', text },
-        { from: 'bot', text: '⚠️ Error enviando mensaje' }
+        { from: 'bot', text: '⚠️ Error sending message' }
       ]);
     }
   };
@@ -61,8 +61,8 @@ function ChatPage() {
 
       <div className='session-status'>
         {isAuthenticated
-          ? <p>🔓 Estás viendo este chat como <strong>usuario registrado</strong></p>
-          : <p>👤 Estás viendo este chat como <strong>invitado anónimo</strong></p>}
+          ? <p>🔓 You are in this chat as <strong>registered user</strong></p>
+          : <p>👤 You are in this chat as <strong>anonymous guest</strong></p>}
       </div>
     </div>
   );

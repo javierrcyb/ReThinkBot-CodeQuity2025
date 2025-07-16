@@ -19,8 +19,8 @@ export function ChatProvider({ children }) {
       setConversations(convs);
       setError(null);
     } catch (err) {
-      console.error('❌ Error cargando conversaciones:', err);
-      setError('No se pudieron cargar tus conversaciones.');
+      console.error('Error loading conversations:', err);
+      setError('Your conversations could not be loaded.');
     } finally {
       setIsLoading(false);
     }

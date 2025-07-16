@@ -29,8 +29,8 @@ export async function sendMessage(conversationId, userId, text) {
     });
     return res.data;
   } catch (err) {
-    console.error('Backend respondió con error:', err.response?.data || err.message);
-    throw new Error('Error al enviar mensaje');
+    console.error('Backend responded with an error:', err.response?.data || err.message);
+    throw new Error('Error sending message');
   }
 }
 

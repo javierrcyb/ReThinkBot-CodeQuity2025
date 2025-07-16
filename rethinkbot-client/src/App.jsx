@@ -6,10 +6,10 @@ import { useNavigate } from 'react-router-dom';
 
 function App() {
   const { user, logout } = useAuth();
-  const navigate = useNavigate(); // 2. Inicializar
+  const navigate = useNavigate();
 
   const handleNewChat = () => {
-    navigate('/'); // 3. Redirigir a la ruta deseada
+    navigate('/');
   };
 
   const handleLogIn = () => {
@@ -29,14 +29,14 @@ function App() {
 
           {user ? (
             <>
-              <p>🔓 Sesión activa</p>
-              <button onClick={logout}>Cerrar sesión</button>
+              <p>🔓 Active session</p>
+              <button onClick={logout}>Log out</button>
             </>
           ) : (
             <>
-              <button onClick={handleLogIn}>Iniciar sesion</button>
-              <button onClick={handleSignIn}>Registrarse</button>
-              <p>🔒 No has iniciado sesión</p>
+              <button onClick={handleLogIn}>Log in</button>
+              <button onClick={handleSignIn}>Sign up</button>
+              <p>🔒 You are not logged in</p>
             </>
           )}
         </div>

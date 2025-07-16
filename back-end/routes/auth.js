@@ -1,11 +1,21 @@
 const express = require('express');
 const passport = require('passport');
 const { register } = require('../controllers/authController');
+const { registerValidator, loginValidator } = require('../middlewares/validators');
+const { validationResult } = require('express-validator');
+
 const router = express.Router();
 
-router.post('/register', register);
+// Middleware para manejar errores de validación
+const handleValidation = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+  next();
+};
 
-router.post('/login', passport.authenticate('local'), (req, res) => {
+router.post('/register', registerValidator, handleValidation, register);
+
+router.post('/login', loginValidator, handleValidation, passport.authenticate('local'), (req, res) => {
   res.json({ message: 'Logueado', user: { id: req.user.id, email: req.user.email } });
 });
 

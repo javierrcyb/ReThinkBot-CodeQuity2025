@@ -24,7 +24,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 configurePassport(passport);
 
-app.get('/', (req, res) => res.send('API ReThinkBot funcionando'));
+app.get('/', (req, res) => res.send('API ReThinkBot working'));
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/conversations', require('./routes/conversation'));

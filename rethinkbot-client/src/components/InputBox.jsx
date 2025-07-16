@@ -15,7 +15,7 @@ function InputBox({ onSend }) {
 
   const handleSend = () => {
     if (!modoActivo) {
-      alert("Por favor, selecciona un modo antes de enviar.");
+      alert("Please select a mode before sending.");
       return;
     }
 
@@ -42,7 +42,7 @@ function InputBox({ onSend }) {
           ref={textareaRef}
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Escribe tu mensaje..."
+          placeholder="Type your message here..."
           className={`textarea ${text.trim() === '' ? 'empty' : ''}`}
         />
 

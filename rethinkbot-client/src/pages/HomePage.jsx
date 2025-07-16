@@ -1,18 +1,18 @@
 import './HomePage.css'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputBox from '../components/InputBox';
 import { useAuth } from '../context/AuthContext';
 import { createConversation } from '../services/conversation';
 import { getOrCreateAnonId } from '../utils/anon';
-import { useChat } from '../context/ChatContext'; // 🧠 ChatContext
+import { useChat } from '../context/ChatContext';
 
 function HomePage() {
   const [messages, setMessages] = useState([]);
   const { user } = useAuth();
   const navigate = useNavigate();
   const [currentConversationId, setCurrentConversationId] = useState(null);
-  const { addConversation } = useChat(); // 🧠 Accede a la función
+  const { addConversation } = useChat();
 
   const handleSend = async ({ text, modo }) => {
     const modeEnumMap = {

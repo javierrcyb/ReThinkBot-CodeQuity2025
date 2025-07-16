@@ -15,7 +15,8 @@ function RegisterPage() {
       await api.post('/api/auth/register', form);
       navigate('/login');
     } catch (err) {
-      alert('Error al registrar');
+      console.log(err)
+      alert('Error while registering');
     }
   };
 
@@ -24,8 +25,8 @@ function RegisterPage() {
       <h2>Registro</h2>
       <input name="email" placeholder="Email" onChange={handleChange} />
       <input name="name" placeholder="Nombre" onChange={handleChange} />
-      <input name="password" type="password" placeholder="Contraseña" onChange={handleChange} />
-      <button type="submit">Registrarse</button>
+      <input name="password" type="password" placeholder="Password" onChange={handleChange} />
+      <button type="submit">Sign up</button>
     </form>
   );
 }
