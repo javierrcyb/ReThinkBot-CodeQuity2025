@@ -3,6 +3,7 @@ const cors = require('cors');
 const session = require('express-session');
 const passport = require('passport');
 const configurePassport = require('./passport/config');
+require('dotenv').config();
 
 const app = express();
 
