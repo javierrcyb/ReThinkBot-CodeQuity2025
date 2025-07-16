@@ -1,3 +1,4 @@
+import './HomePage.css'
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputBox from '../components/InputBox';

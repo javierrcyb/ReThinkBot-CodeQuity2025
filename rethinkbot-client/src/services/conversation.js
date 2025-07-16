@@ -34,5 +34,7 @@ export async function sendMessage(conversationId, userId, text) {
   }
 }
 
-  
-
+export async function deleteConversation(conversationId) {
+  const res = await api.delete(`/api/conversations/${conversationId}`);
+  return res.data;
+}

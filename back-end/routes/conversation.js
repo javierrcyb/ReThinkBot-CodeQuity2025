@@ -165,7 +165,7 @@ router.post('/:id/messages', async (req, res) => {
 
     const result = await openai.models.generateContent({
       model: 'gemini-2.5-flash',
-      contents: prompt,
+      contents: history,
     });
 
     const botText = result.text || '[Respuesta no disponible]';
@@ -183,6 +183,28 @@ router.post('/:id/messages', async (req, res) => {
   } catch (err) {
     console.error('❌ Error enviando mensaje:', err);
     res.status(500).json({ error: 'Error del servidor' });
+  }
+});
+
+// 🔴 Eliminar conversación por ID
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Primero eliminamos los mensajes relacionados (por integridad referencial)
+    await prisma.message.deleteMany({
+      where: { conversationId: id },
+    });
+
+    // Luego eliminamos la conversación
+    await prisma.conversation.delete({
+      where: { id },
+    });
+
+    res.json({ success: true, message: 'Conversación eliminada' });
+  } catch (error) {
+    console.error('❌ Error eliminando conversación:', error);
+    res.status(500).json({ error: 'No se pudo eliminar la conversación' });
   }
 });
 

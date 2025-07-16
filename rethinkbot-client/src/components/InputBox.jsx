@@ -1,3 +1,4 @@
+import './InputBox.css'
 import { useEffect, useRef, useState } from 'react'
 
 const MODOS_DISPONIBLES = [

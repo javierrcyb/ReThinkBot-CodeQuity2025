@@ -1,3 +1,4 @@
+import './ChatPage.css'
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import InputBox from '../components/InputBox';
@@ -30,14 +31,21 @@ function ChatPage() {
   }, [id]);
 
   const handleSend = async ({ text }) => {
-    setMessages(prev => [...prev, { from: 'user', text }]);
-
     try {
       const res = await sendMessage(id, userId, text);
-      setMessages(prev => [...prev, { from: 'user', text }, { from: 'bot', text: res.botReply }]);
+
+      setMessages(prev => [
+        ...prev,
+        { from: 'user', text },
+        { from: 'bot', text: res.botReply }
+      ]);
     } catch (err) {
       console.error('❌ Error enviando mensaje:', err);
-      setMessages(prev => [...prev, { from: 'bot', text: '⚠️ Error enviando mensaje' }]);
+      setMessages(prev => [
+        ...prev,
+        { from: 'user', text },
+        { from: 'bot', text: '⚠️ Error enviando mensaje' }
+      ]);
     }
   };
 
@@ -45,7 +53,7 @@ function ChatPage() {
     <div className='main-page'>
       <div className='chat-log'>
         {messages.map((msg, i) => (
-          <p key={i}><strong>{msg.from}:</strong> {msg.text}</p>
+          <p key={i} className={msg.from}>{msg.text}</p>
         ))}
       </div>
 
