@@ -11,11 +11,12 @@ const {
 // Crear conversación
 router.post('/', createConversation);
 
+// Obtener lista de conversaciones de un usuario
+router.get('/', listConversationsByUser);
+
 // Obtener conversación por ID
 router.get('/:id', getConversationById);
 
-// Obtener lista de conversaciones de un usuario
-router.get('/', listConversationsByUser);
 
 // Enviar mensaje a una conversación existente
 router.post('/:id/messages', sendMessage);

@@ -38,7 +38,7 @@ const clientPath = path.join(__dirname, '../rethinkbot-client/dist');
 app.use(express.static(clientPath));
 
 // Fallback: SPA
-app.get('*', (req, res) => {
+app.get(/^\/(?!api\/).*/, (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
 });
 
