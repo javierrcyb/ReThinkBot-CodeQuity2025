@@ -4,9 +4,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js",
-    "build-client": "cd ../rethinkbot-client && npm install && npm run build",
-    "postinstall": "npm run build-client"
+    "dev": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
