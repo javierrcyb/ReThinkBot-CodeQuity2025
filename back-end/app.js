@@ -8,6 +8,7 @@ require('dotenv').config();
 const app = express();
 
 const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:5173';
+const sessionSecret = process.env.SESSION_SECRET
 
 app.use(cors({
   origin: allowedOrigin,
@@ -16,7 +17,7 @@ app.use(cors({
 
 app.use(express.json());
 app.use(session({
-  secret: 'supersecreto',
+  secret: sessionSecret,
   resave: false,
   saveUninitialized: false,
   cookie: { secure: false }
