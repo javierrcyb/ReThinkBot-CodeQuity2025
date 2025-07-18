@@ -49,7 +49,7 @@ In the era of misinformation, digital polarization, and echo chambers, thinking 
 - **cors** – Middleware for CORS configuration
 
 ### 🧬 IA & APIs
-- **Google Generative AI (Gemini 1.5)** – Generación de respuestas del chatbot
+- **Google Generative AI (Gemini 1.5)** – Generating chatbot responses
 
 ### 🛢️ Database
 - **PostgreSQL** – Relational database
